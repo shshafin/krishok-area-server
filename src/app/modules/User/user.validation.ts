@@ -5,6 +5,7 @@ const userValidationSchema = z.object({
   username: z.string({ required_error: 'Username is required' }),
   email: z.string().email({ message: 'Invalid email address' }),
   phone: z.string({ required_error: 'Phone is required' }),
+  address: z.string({ required_error: 'Address is required' }),
   password: z
     .string()
     .min(6, { message: 'Password must be at least 6 characters' }),
