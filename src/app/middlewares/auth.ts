@@ -1,14 +1,14 @@
-import { NextFunction, Request, Response } from 'express';
+import { NextFunction, Response } from 'express';
+import jwt, { JwtPayload } from 'jsonwebtoken';
+import { User } from '../modules/User/user.model';
 import AppError from '../errors/appError';
 import httpStatus from 'http-status';
-import jwt, { JwtPayload } from 'jsonwebtoken';
 import config from '../config';
 
 const auth = () => {
-  return async (req: Request, res: Response, next: NextFunction) => {
+  return async (req: any, res: Response, next: NextFunction) => {
     try {
       const authHeader = req.headers.authorization;
-
       if (!authHeader || !authHeader.startsWith('Bearer ')) {
         throw new AppError(
           httpStatus.UNAUTHORIZED,
@@ -19,26 +19,32 @@ const auth = () => {
 
       const token = authHeader.split(' ')[1];
 
-      const decoded = jwt.verify(
-        token,
-        config.jwt_access_secret as string,
-      ) as JwtPayload;
-
-      // Attach decoded user info to req.user
-      req.user = decoded;
-
-      next();
-    } catch (err) {
-      // If jwt.verify throws, it will be caught here
-      if (err instanceof jwt.JsonWebTokenError) {
-        return next(
-          new AppError(
-            httpStatus.UNAUTHORIZED,
-            'Invalid or expired token.',
-            'JWT verification failed.',
-          ),
+      let decoded: JwtPayload;
+      try {
+        decoded = jwt.verify(
+          token,
+          config.jwt_access_secret as string,
+        ) as JwtPayload;
+      } catch (err) {
+        throw new AppError(
+          httpStatus.UNAUTHORIZED,
+          'Invalid or expired token.',
+          'JWT verification failed',
         );
       }
+
+      const user = await User.findById(decoded._id).select('-password');
+      if (!user) {
+        throw new AppError(
+          httpStatus.UNAUTHORIZED,
+          'User not found',
+          'User does not exist in DB',
+        );
+      }
+
+      req.user = user;
+      next();
+    } catch (err) {
       next(err);
     }
   };
