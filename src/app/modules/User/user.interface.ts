@@ -10,6 +10,9 @@ export type TUser = {
   password: string;
   state: string;
   role: 'user' | 'admin';
+  following: Types.ObjectId[];
+  followers: Types.ObjectId[];
+  isOnline: boolean;
   createdAt?: Date;
   updatedAt?: Date;
 };

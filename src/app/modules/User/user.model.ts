@@ -13,6 +13,9 @@ const userSchema = new Schema<TUser>(
     password: { type: String, required: true, select: 0 },
     state: { type: String, required: true },
     role: { type: String, enum: ['user', 'admin'], default: 'user' },
+    following: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+    followers: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+    isOnline: { type: Boolean, default: false },
   },
   { timestamps: true },
 );
