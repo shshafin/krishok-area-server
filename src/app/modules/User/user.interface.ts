@@ -9,6 +9,8 @@ export type TUser = {
   address: string;
   password: string;
   state: string;
+  profileImage?: string;
+  coverImage?: string;
   role: 'user' | 'admin';
   following: Types.ObjectId[];
   followers: Types.ObjectId[];

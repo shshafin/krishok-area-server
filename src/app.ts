@@ -3,6 +3,7 @@ import cors from 'cors';
 import globalErrorHandler from './app/middlewares/globalErrorHandler';
 import notFound from './app/middlewares/notFound';
 import router from './app/routes';
+import path from 'path';
 
 const app: Application = express();
 
@@ -15,6 +16,9 @@ app.use(
   }),
 );
 
+const uploadsPath = path.resolve('uploads');
+
+app.use('/uploads', express.static(uploadsPath));
 // routes
 app.use('/api/v1', router);
 

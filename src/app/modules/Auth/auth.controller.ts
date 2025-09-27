@@ -15,6 +15,19 @@ const userLogin: RequestHandler = async (req, res, next) => {
   }
 };
 
+const logout: RequestHandler = async (req: any, res, next) => {
+  try {
+    await AuthServices.logoutUser(req.user._id);
+    res.status(200).json({
+      success: true,
+      message: 'Logged out successfully',
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
 export const AuthControllers = {
   userLogin,
+  logout,
 };

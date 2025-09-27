@@ -12,6 +12,14 @@ const userSchema = new Schema<TUser>(
     address: { type: String, required: true },
     password: { type: String, required: true, select: 0 },
     state: { type: String, required: true },
+    profileImage: {
+      type: String,
+      default:
+        'https://i.postimg.cc/fRVdFSbg/e1ef6545-86db-4c0b-af84-36a726924e74.png',
+    },
+    coverImage: {
+      type: String,
+    },
     role: { type: String, enum: ['user', 'admin'], default: 'user' },
     following: [{ type: Schema.Types.ObjectId, ref: 'User' }],
     followers: [{ type: Schema.Types.ObjectId, ref: 'User' }],

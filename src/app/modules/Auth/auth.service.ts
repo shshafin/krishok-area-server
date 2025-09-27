@@ -30,6 +30,9 @@ const loginExistingUser = async (payload: TUserLogin) => {
     );
   }
 
+  user.isOnline = true;
+  await user.save();
+
   const jwtPayload = {
     _id: user._id,
     email: user.email,
@@ -49,6 +52,19 @@ const loginExistingUser = async (payload: TUserLogin) => {
   };
 };
 
+// ------------------------------
+// LOG OUT SERVICE
+// ------------------------------
+const logoutUser = async (userId: string) => {
+  const user = await User.findById(userId);
+  if (user) {
+    user.isOnline = false;
+    await user.save();
+  }
+  return user;
+};
+
 export const AuthServices = {
   loginExistingUser,
+  logoutUser,
 };
