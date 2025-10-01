@@ -11,6 +11,7 @@ export type TUser = {
   state: string;
   profileImage?: string;
   coverImage?: string;
+  photos: string[];
   role: 'user' | 'admin';
   following: Types.ObjectId[];
   followers: Types.ObjectId[];

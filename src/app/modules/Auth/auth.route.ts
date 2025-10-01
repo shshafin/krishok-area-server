@@ -14,4 +14,7 @@ router.post(
 // Logout route (protected)
 router.post('/logout', auth(), AuthControllers.logout);
 
+// Reset password
+router.post('/reset-password', auth(), AuthControllers.resetPasswordController);
+
 export const AuthRoutes = router;

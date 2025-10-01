@@ -168,6 +168,23 @@ export const updateProfile: RequestHandler = async (
     });
   }
 };
+const getUserPhotosController: RequestHandler = async (req: any, res: any) => {
+  try {
+    const userId = req.params.id;
+
+    const photos = await UserServices.getUserPhotos(userId);
+
+    res.status(200).json({
+      success: true,
+      photos,
+    });
+  } catch (error: any) {
+    res.status(404).json({
+      success: false,
+      message: error.message || 'Something went wrong',
+    });
+  }
+};
 
 export const UserControllers = {
   createUser,
@@ -179,4 +196,5 @@ export const UserControllers = {
   getFollowers,
   getFollowing,
   updateProfile,
+  getUserPhotosController,
 };

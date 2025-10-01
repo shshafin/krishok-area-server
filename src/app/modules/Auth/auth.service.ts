@@ -64,7 +64,42 @@ const logoutUser = async (userId: string) => {
   return user;
 };
 
+// ------------------------------
+// PASSWORD CHANGE
+// ------------------------------
+const resetPassword = async (
+  userId: string,
+  oldPassword: string,
+  newPassword: string,
+) => {
+  const user = await User.findById(userId).select('+password');
+  if (!user) {
+    throw new AppError(
+      httpStatus.NOT_FOUND,
+      'User not found',
+      'Invalid user ID',
+    );
+  }
+
+  // old password check
+  const isMatch = await bcrypt.compare(oldPassword, user.password);
+  if (!isMatch) {
+    throw new AppError(
+      httpStatus.UNAUTHORIZED,
+      'Old password incorrect',
+      'Provided old password did not match',
+    );
+  }
+
+  user.password = newPassword;
+
+  await user.save();
+
+  return { message: 'Password reset successful' };
+};
+
 export const AuthServices = {
   loginExistingUser,
   logoutUser,
+  resetPassword,
 };

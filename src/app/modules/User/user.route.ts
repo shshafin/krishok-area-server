@@ -40,4 +40,6 @@ router.put(
   UserControllers.updateProfile,
 );
 
+router.get('/:id/photos', auth(), UserControllers.getUserPhotosController);
+
 export const UserRoutes = router;

@@ -6,6 +6,7 @@ import config from './app/config';
 import mongoose from 'mongoose';
 import { Server } from 'http';
 import { setupSocket } from './app/sockets/socket';
+import './app/cron/nodeCron';
 
 let server: Server;
 const port = config.port;

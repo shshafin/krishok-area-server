@@ -107,6 +107,19 @@ export const updateUserProfile = async (
   return updatedUser; // updated user return
 };
 
+const getUserPhotos = async (userId: string) => {
+  const user = await User.findById(userId).select(
+    'profileImage coverImage photos',
+  );
+  if (!user) {
+    throw new Error('User not found');
+  }
+
+  const photos = [user.profileImage, user.coverImage, ...(user.photos || [])];
+
+  return photos;
+};
+
 export const UserServices = {
   createUserIntoDB,
   getAllUsers,
@@ -116,4 +129,5 @@ export const UserServices = {
   getFollowers,
   getFollowing,
   updateUserProfile,
+  getUserPhotos,
 };

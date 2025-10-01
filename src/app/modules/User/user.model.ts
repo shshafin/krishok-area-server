@@ -20,6 +20,7 @@ const userSchema = new Schema<TUser>(
     coverImage: {
       type: String,
     },
+    photos: [{ type: String }],
     role: { type: String, enum: ['user', 'admin'], default: 'user' },
     following: [{ type: Schema.Types.ObjectId, ref: 'User' }],
     followers: [{ type: Schema.Types.ObjectId, ref: 'User' }],

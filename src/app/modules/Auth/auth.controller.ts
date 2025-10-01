@@ -27,7 +27,28 @@ const logout: RequestHandler = async (req: any, res, next) => {
   }
 };
 
+const resetPasswordController: RequestHandler = async (req: any, res, next) => {
+  try {
+    const userId = req.user.id;
+    const { oldPassword, newPassword } = req.body;
+
+    const result = await AuthServices.resetPassword(
+      userId,
+      oldPassword,
+      newPassword,
+    );
+
+    res.status(200).json({
+      success: true,
+      message: result.message,
+    });
+  } catch (error: any) {
+    next(error);
+  }
+};
+
 export const AuthControllers = {
   userLogin,
   logout,
+  resetPasswordController,
 };
