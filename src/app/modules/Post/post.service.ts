@@ -34,7 +34,13 @@ export const PostService = {
     }
 
     await post.save();
-    return post;
+
+    // populate user and comment users
+    const populatedPost = await Post.findById(postId)
+      .populate('user', 'username email profileImage') // post owner
+      .populate('comments.user', 'username profileImage'); // comment users
+
+    return populatedPost;
   },
 
   // 3️⃣ Add Comment
@@ -43,9 +49,16 @@ export const PostService = {
     const post = await Post.findById(postId);
     if (!post) throw new Error('Post not found');
 
+    // add comment
     post.comments.push({ user: userId, text, createdAt: new Date() });
     await post.save();
-    return post;
+
+    // populate user inside comments
+    const populatedPost = await Post.findById(postId)
+      .populate('comments.user', 'username profileImage')
+      .populate('user', 'username email profileImage'); // optionally populate post owner
+
+    return populatedPost;
   },
 
   // 4️⃣ Delete Comment
@@ -74,8 +87,9 @@ export const PostService = {
   // 5️⃣ Fetch Posts (optional)
   getAllPosts: async () => {
     const posts = await Post.find()
-      .populate('user', 'username email profileImage')
-      .populate('comments.user', 'username profileImage')
+      .populate('user', 'username email profileImage') // post owner
+      .populate('comments.user', 'username profileImage') // comment users
+      .populate('likes', 'username profileImage') // liked users
       .sort({ createdAt: -1 });
 
     return posts;

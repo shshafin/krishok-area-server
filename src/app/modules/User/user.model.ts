@@ -12,6 +12,7 @@ const userSchema = new Schema<TUser>(
     address: { type: String, required: true },
     password: { type: String, required: true, select: 0 },
     state: { type: String, required: true },
+    bio: { type: String },
     profileImage: {
       type: String,
       default:

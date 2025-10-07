@@ -9,6 +9,7 @@ export type TUser = {
   address: string;
   password: string;
   state: string;
+  bio?: string;
   profileImage?: string;
   coverImage?: string;
   photos: string[];
