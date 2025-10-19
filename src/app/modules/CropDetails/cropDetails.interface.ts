@@ -1,6 +1,8 @@
+import { Schema } from 'mongoose';
+
 export interface ICropDetail {
   _id?: string;
-  cropName: string;
+  category: Schema.Types.ObjectId;
   cropTitle: string;
   cropImage: string;
   rogLokkho: string;

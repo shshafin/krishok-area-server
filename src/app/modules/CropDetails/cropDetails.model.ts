@@ -3,8 +3,9 @@ import { ICropDetail } from './cropDetails.interface';
 
 const CropDetailSchema = new Schema<ICropDetail>(
   {
-    cropName: {
-      type: String,
+    category: {
+      type: Schema.Types.ObjectId,
+      ref: 'Crop',
       required: true,
       trim: true,
     },

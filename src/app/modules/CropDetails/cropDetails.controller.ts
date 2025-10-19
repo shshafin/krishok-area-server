@@ -3,7 +3,7 @@ import { CropDetailsService } from './cropDetails.service';
 
 const createCropDetail = async (req: Request, res: Response) => {
   try {
-    const { cropName, cropTitle, rogLokkho, koroniyo } = req.body;
+    const { category, cropTitle, rogLokkho, koroniyo } = req.body;
 
     if (!req.file) {
       return res
@@ -12,7 +12,7 @@ const createCropDetail = async (req: Request, res: Response) => {
     }
 
     const payload = {
-      cropName,
+      category,
       cropTitle,
       rogLokkho,
       koroniyo,
