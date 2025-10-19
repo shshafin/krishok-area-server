@@ -16,6 +16,7 @@ app.use(
       'http://localhost:5173',
       'https://react-ui-sandy.vercel.app',
       'https://rainbow-klepon-d21b1b.netlify.app',
+      'https://krishokarea.marcelinestudios.com',
     ],
     credentials: true,
   }),
