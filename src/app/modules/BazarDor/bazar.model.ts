@@ -1,7 +1,7 @@
 import { Schema, model } from 'mongoose';
-import { TGallery } from './gallery.interface';
+import { TBazarDor } from './bazar.interface';
 
-const gallerySchema = new Schema<TGallery>(
+const bazarDorSchema = new Schema<TBazarDor>(
   {
     user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
     description: { type: String },
@@ -10,4 +10,4 @@ const gallerySchema = new Schema<TGallery>(
   { timestamps: true },
 );
 
-export const Gallery = model<TGallery>('Gallery', gallerySchema);
+export const BazarDor = model<TBazarDor>('BazarDor', bazarDorSchema);

@@ -1,7 +1,7 @@
 import { RequestHandler } from 'express';
-import { GalleryServices } from './gallery.service';
+import { BazarDorServices } from './bazar.service';
 
-const createGallery: RequestHandler = async (req: any, res, next) => {
+const createBazarDor: RequestHandler = async (req: any, res, next) => {
   try {
     const userId = req.user._id;
     const { description } = req.body;
@@ -17,11 +17,11 @@ const createGallery: RequestHandler = async (req: any, res, next) => {
       });
     }
 
-    const result = await GalleryServices.createGallery(payload);
+    const result = await BazarDorServices.createBazarDor(payload);
 
     res.status(201).json({
       success: true,
-      message: 'Gallery item created successfully',
+      message: 'Bazar Dor created successfully',
       data: result,
     });
   } catch (err) {
@@ -29,14 +29,14 @@ const createGallery: RequestHandler = async (req: any, res, next) => {
   }
 };
 
-const getMyGallery: RequestHandler = async (req: any, res, next) => {
+const getMyBazarDor: RequestHandler = async (req: any, res, next) => {
   try {
     const userId = req.user._id;
-    const result = await GalleryServices.getUserGallery(userId);
+    const result = await BazarDorServices.getUserBazarDor(userId);
 
     res.status(200).json({
       success: true,
-      message: 'Gallery fetched successfully',
+      message: 'Your Bazar Dors fetched successfully',
       data: result,
     });
   } catch (err) {
@@ -44,12 +44,12 @@ const getMyGallery: RequestHandler = async (req: any, res, next) => {
   }
 };
 
-const getAllGalleries: RequestHandler = async (req, res, next) => {
+const getAllBazarDors: RequestHandler = async (req, res, next) => {
   try {
-    const result = await GalleryServices.getAllGalleries();
+    const result = await BazarDorServices.getAllBazarDors();
     res.status(200).json({
       success: true,
-      message: 'All galleries fetched successfully',
+      message: 'All Bazar Dors fetched successfully',
       data: result,
     });
   } catch (err) {
@@ -57,31 +57,31 @@ const getAllGalleries: RequestHandler = async (req, res, next) => {
   }
 };
 
-const deleteGallery: RequestHandler = async (req: any, res, next) => {
+const deleteBazarDor: RequestHandler = async (req: any, res, next) => {
   try {
     const userId = req.user._id;
     const { id } = req.params;
 
-    const result = await GalleryServices.deleteGallery(id, userId);
+    const result = await BazarDorServices.deleteBazarDor(id, userId);
     if (!result) {
       return res.status(404).json({
         success: false,
-        message: 'Gallery not found or unauthorized',
+        message: 'Bazar Dor not found or unauthorized',
       });
     }
 
     res.status(200).json({
       success: true,
-      message: 'Gallery item deleted successfully',
+      message: 'Bazar Dor deleted successfully',
     });
   } catch (err) {
     next(err);
   }
 };
 
-export const GalleryControllers = {
-  createGallery,
-  getMyGallery,
-  getAllGalleries,
-  deleteGallery,
+export const BazarDorControllers = {
+  createBazarDor,
+  getMyBazarDor,
+  getAllBazarDors,
+  deleteBazarDor,
 };

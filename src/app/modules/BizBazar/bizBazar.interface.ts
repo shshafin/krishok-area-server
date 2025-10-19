@@ -1,6 +1,6 @@
 import { Types } from 'mongoose';
 
-export interface TGallery {
+export interface TBizBazar {
   user: Types.ObjectId;
   description?: string;
   image: string;
