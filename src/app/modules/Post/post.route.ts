@@ -19,6 +19,8 @@ router.post(
   auth(),
   PostController.createPost,
 );
+// Delete Post
+router.delete('/:postId', auth(), PostController.deletePost);
 
 // Toggle Like / Unlike
 router.put('/:postId/like', auth(), PostController.toggleLike);

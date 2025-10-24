@@ -14,7 +14,7 @@ const getUserBizBazar = async (userId: string) => {
 // Get all Biz Bazar (public view)
 const getAllBizBazars = async () => {
   return await BizBazar.find()
-    .populate('createdBy', 'name username profileImage state phone')
+    .populate('description image createdAt')
     .sort({ createdAt: -1 });
 };
 

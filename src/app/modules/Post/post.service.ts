@@ -21,6 +21,19 @@ export const PostService = {
     return post;
   },
 
+  // delete post
+  deletePost: async (postId: string, userId: string) => {
+    const post = await Post.findById(postId);
+    if (!post) throw new Error('Post not found');
+
+    // authorization check
+    if (post.user.toString() !== userId.toString())
+      throw new Error('Not authorized');
+
+    // Delete the post
+    await Post.findByIdAndDelete(postId);
+  },
+
   // 2️⃣ Like / Unlike
   toggleLike: async (postId: any, userId: any) => {
     const post = await Post.findById(postId);

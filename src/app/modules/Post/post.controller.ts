@@ -41,6 +41,29 @@ export const createPost = async (req: Request, res: Response) => {
 };
 
 // --------------------
+// DELETE POST
+// --------------------
+export const deletePost = async (req: Request, res: Response) => {
+  try {
+    const userId = req.user._id;
+    const { postId } = req.params;
+
+    await PostService.deletePost(postId, userId);
+
+    res.status(httpStatus.OK).json({
+      success: true,
+      message: 'Post deleted successfully',
+    });
+  } catch (error: any) {
+    res.status(httpStatus.BAD_REQUEST).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+// --------------------
+
+// --------------------
 // TOGGLE LIKE
 // --------------------
 export const toggleLike = async (req: Request, res: Response) => {
