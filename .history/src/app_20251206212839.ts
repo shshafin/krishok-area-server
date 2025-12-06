@@ -17,7 +17,8 @@ app.use(
       'https://react-ui-sandy.vercel.app',
       'https://rainbow-klepon-d21b1b.netlify.app',
       'https://krishokarea.marcelinestudios.com',
-      'https://krishokarea.com'
+      'https://krishokarea.com',
+      'https://krishok-area-client-final.vercel.app/auth/login'
     ],
     credentials: true,
   }),
