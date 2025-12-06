@@ -138,8 +138,7 @@ export const PostService = {
 
   getSinglePost: async (id: string) => {
     const result = await Post.findById(id)
-      .populate('user')
-      .populate('likes')
+      .populate('user') 
       .populate('comments');
     return result;
   },

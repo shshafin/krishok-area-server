@@ -40,7 +40,6 @@ router.get('/', PostController.getAllPosts);
 
 // Get User's Posts
 router.get('/profile/:userId/posts', PostController.getUserProfilePosts);
-// Get Single Post
-router.get('/:postId', PostController.getSinglePost);
+
 
 export const PostRoutes = router;

@@ -32,6 +32,8 @@ const deleteBizBazar = async (bazarId: string) => {
   if (!mongoose.Types.ObjectId.isValid(bazarId)) {
     throw new Error('Invalid Bazar ID');
   }
+
+  // Directly find by ID and delete, userId check remove kora
   return await BizBazar.findByIdAndDelete(bazarId);
 };
 

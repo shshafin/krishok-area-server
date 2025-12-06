@@ -1,7 +1,7 @@
 import { RequestHandler } from 'express';
-import { BazarDorServices } from './bazar.service';
+import { BizBazarServices } from './bizBazar.service';
 
-const createBazarDor: RequestHandler = async (req: any, res, next) => {
+const createBizBazar: RequestHandler = async (req: any, res, next) => {
   try {
     const userId = req.user._id;
     const { description } = req.body;
@@ -17,11 +17,11 @@ const createBazarDor: RequestHandler = async (req: any, res, next) => {
       });
     }
 
-    const result = await BazarDorServices.createBazarDor(payload);
+    const result = await BizBazarServices.createBizBazar(payload);
 
     res.status(201).json({
       success: true,
-      message: 'Bazar Dor created successfully',
+      message: 'Biz Bazar created successfully',
       data: result,
     });
   } catch (err) {
@@ -29,14 +29,14 @@ const createBazarDor: RequestHandler = async (req: any, res, next) => {
   }
 };
 
-const getMyBazarDor: RequestHandler = async (req: any, res, next) => {
+const getMyBizBazar: RequestHandler = async (req: any, res, next) => {
   try {
     const userId = req.user._id;
-    const result = await BazarDorServices.getUserBazarDor(userId);
+    const result = await BizBazarServices.getUserBizBazar(userId);
 
     res.status(200).json({
       success: true,
-      message: 'Your Bazar Dors fetched successfully',
+      message: 'Your Biz Bazars fetched successfully',
       data: result,
     });
   } catch (err) {
@@ -44,12 +44,12 @@ const getMyBazarDor: RequestHandler = async (req: any, res, next) => {
   }
 };
 
-const getAllBazarDors: RequestHandler = async (req, res, next) => {
+const getAllBizBazars: RequestHandler = async (req, res, next) => {
   try {
-    const result = await BazarDorServices.getAllBazarDors();
+    const result = await BizBazarServices.getAllBizBazars();
     res.status(200).json({
       success: true,
-      message: 'All Bazar Dors fetched successfully',
+      message: 'All Biz Bazars fetched successfully',
       data: result,
     });
   } catch (err) {
@@ -57,30 +57,30 @@ const getAllBazarDors: RequestHandler = async (req, res, next) => {
   }
 };
 
-const deleteBazarDor: RequestHandler = async (req, res, next) => {
+const deleteBizBazarHandler: RequestHandler = async (req, res, next) => {
   try {
     const { id } = req.params;
 
-    const result = await BazarDorServices.deleteBazarDor(id);
+    const result = await BizBazarServices.deleteBizBazar(id);
     if (!result) {
       return res.status(404).json({
         success: false,
-        message: 'Bazar Dor not found',
+        message: "Biz Bazar not found",
       });
     }
 
     res.status(200).json({
       success: true,
-      message: 'Bazar Dor deleted successfully',
+      message: "Biz Bazar deleted successfully",
     });
   } catch (err) {
     next(err);
   }
 };
 
-export const BazarDorControllers = {
-  createBazarDor,
-  getMyBazarDor,
-  getAllBazarDors,
-  deleteBazarDor,
+export const BizBazarControllers = {
+  createBizBazar,
+  getMyBizBazar,
+  getAllBizBazars,
+  deleteBizBazar,
 };

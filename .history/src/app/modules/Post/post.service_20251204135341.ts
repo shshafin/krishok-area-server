@@ -136,13 +136,12 @@ export const PostService = {
     return posts;
   },
 
-  getSinglePost: async (id: string) => {
-    const result = await Post.findById(id)
-      .populate('user')
-      .populate('likes')
-      .populate('comments');
-    return result;
-  },
+  const getSinglePost = async (id: string) => {
+  const result = await Post.findById(id)
+    .populate('user') // or whatever your author field is
+    .populate('comments');
+  return result;
+};
 
   // 6️⃣ Fetch User's Posts
   getUserPosts: async (userId: string) => {

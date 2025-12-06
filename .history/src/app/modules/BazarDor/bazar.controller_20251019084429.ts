@@ -57,15 +57,16 @@ const getAllBazarDors: RequestHandler = async (req, res, next) => {
   }
 };
 
-const deleteBazarDor: RequestHandler = async (req, res, next) => {
+const deleteBazarDor: RequestHandler = async (req: any, res, next) => {
   try {
+    const userId = req.user._id;
     const { id } = req.params;
 
-    const result = await BazarDorServices.deleteBazarDor(id);
+    const result = await BazarDorServices.deleteBazarDor(id, userId);
     if (!result) {
       return res.status(404).json({
         success: false,
-        message: 'Bazar Dor not found',
+        message: 'Bazar Dor not found or unauthorized',
       });
     }
 

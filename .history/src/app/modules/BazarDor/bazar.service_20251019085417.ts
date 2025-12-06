@@ -16,8 +16,8 @@ const getAllBazarDors = async () => {
     .sort({ createdAt: -1 });
 };
 
-const deleteBazarDor = async (bazarId: string) => {
-  return await BazarDor.findByIdAndDelete(bazarId);
+const deleteBazarDor = async (bazarId: string, userId: string) => {
+  return await BazarDor.findOneAndDelete({ _id: bazarId, user: userId });
 };
 
 export const BazarDorServices = {

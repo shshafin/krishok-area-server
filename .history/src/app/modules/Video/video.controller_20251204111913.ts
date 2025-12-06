@@ -8,7 +8,6 @@ const createVideo: RequestHandler = async (req: any, res, next) => {
     const { title, videoUrl, description } = req.body;
 
     const payload = {
-      title,
       videoUrl,
       description,
     };

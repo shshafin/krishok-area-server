@@ -42,7 +42,7 @@ export const createPost = async (req: Request, res: Response) => {
 
 export const getSinglePost = async (req: Request, res: Response) => {
   try {
-    const { postId } = req.params;
+    const { postId } = req.params; // Ensure route is /:postId
     const result = await PostService.getSinglePost(postId);
 
     res.status(httpStatus.OK).json({
