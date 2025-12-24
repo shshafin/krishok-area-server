@@ -1,0 +1,728 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Proposal - Equações Razoáveis</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+
+    <!-- PDF Generation Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <style>
+      :root {
+        --brand-red: #e11d48; /* Marceline Red */
+        --brand-dark: #0f172a; /* Dark Slate */
+        --bg-light: #fff1f2; /* Light Red Tint */
+        --text-main: #334155;
+        --border: #fecdd3;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        background: #555;
+        font-family: 'Inter', sans-serif;
+        margin: 0;
+        padding: 20px;
+        color: var(--text-main);
+      }
+
+      /* A4 Page Layout */
+      .page {
+        width: 210mm;
+        min-height: 297mm;
+        background: white;
+        margin: 0 auto 20px auto;
+        position: relative;
+        padding: 50px;
+        display: flex;
+        flex-direction: column;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      }
+
+      /* Header */
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 3px solid var(--brand-red);
+        padding-bottom: 20px;
+        margin-bottom: 40px;
+      }
+
+      .logo {
+        height: 50px;
+      }
+
+      .doc-meta {
+        text-align: right;
+      }
+      .doc-meta h1 {
+        font-size: 20px;
+        color: var(--brand-dark);
+        font-weight: 800;
+        margin: 0;
+        text-transform: uppercase;
+      }
+      .doc-meta span {
+        color: var(--brand-red);
+        font-weight: 600;
+        font-size: 12px;
+      }
+
+      /* Typography */
+      h2 {
+        font-size: 18px;
+        color: var(--brand-dark);
+        border-left: 5px solid var(--brand-red);
+        padding-left: 15px;
+        margin: 30px 0 20px 0;
+        background: linear-gradient(90deg, var(--bg-light) 0%, white 100%);
+        padding-top: 8px;
+        padding-bottom: 8px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      h3 {
+        font-size: 14px;
+        color: var(--brand-red);
+        margin: 15px 0 10px 0;
+        font-weight: 700;
+      }
+      p,
+      li {
+        font-size: 13px;
+        line-height: 1.6;
+        margin-bottom: 10px;
+        text-align: justify;
+      }
+      ul {
+        padding-left: 20px;
+        margin: 0;
+      }
+
+      /* Navigation Architecture Grid */
+      .sitemap-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 25px;
+      }
+
+      .nav-block {
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        padding: 20px;
+        background: #fff;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
+      }
+
+      .nav-header {
+        font-weight: 800;
+        color: var(--brand-dark);
+        border-bottom: 2px solid var(--border);
+        padding-bottom: 8px;
+        margin-bottom: 10px;
+        text-transform: uppercase;
+        font-size: 13px;
+      }
+
+      .nav-list {
+        list-style: none;
+        padding: 0;
+      }
+      .nav-list > li {
+        font-weight: 700;
+        font-size: 13px;
+        color: #1e293b;
+        margin-top: 10px;
+      }
+      .sub-nav {
+        list-style: none;
+        padding-left: 15px;
+        margin-top: 5px;
+        border-left: 2px solid var(--bg-light);
+      }
+      .sub-nav li {
+        font-weight: 400;
+        font-size: 12px;
+        color: #64748b;
+        margin-bottom: 3px;
+        position: relative;
+      }
+      .sub-nav li::before {
+        content: '-';
+        margin-right: 5px;
+        color: var(--brand-red);
+      }
+
+      /* Admin Roles Box */
+      .role-box {
+        background: var(--bg-light);
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 15px;
+        border-left: 4px solid var(--brand-dark);
+      }
+      .role-title {
+        font-weight: 700;
+        color: var(--brand-dark);
+        display: block;
+        margin-bottom: 5px;
+      }
+
+      /* Tech Stack */
+      .tech-grid {
+        display: flex;
+        gap: 15px;
+        flex-wrap: wrap;
+        margin-top: 10px;
+      }
+      .tech-badge {
+        background: var(--brand-dark);
+        color: white;
+        padding: 8px 16px;
+        border-radius: 50px;
+        font-size: 12px;
+        font-weight: 600;
+      }
+
+      /* Requirements List */
+      .req-list li {
+        margin-bottom: 8px;
+        font-weight: 500;
+        color: #334155;
+      }
+      .req-list i {
+        color: var(--brand-red);
+        margin-right: 8px;
+      }
+
+      /* Budget Table */
+      .budget-box {
+        background: #f8fafc;
+        border: 2px solid var(--brand-red);
+        border-radius: 8px;
+        padding: 20px;
+        text-align: center;
+        margin-top: 20px;
+      }
+      .total-price {
+        font-size: 32px;
+        font-weight: 800;
+        color: var(--brand-red);
+        display: block;
+        margin: 10px 0;
+      }
+
+      /* Payment Schedule */
+      .pay-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+        font-size: 13px;
+      }
+      .pay-table th {
+        background: var(--brand-dark);
+        color: white;
+        padding: 10px;
+        text-align: left;
+      }
+      .pay-table td {
+        border-bottom: 1px solid #e2e8f0;
+        padding: 10px;
+      }
+
+      /* Footer */
+      .footer {
+        margin-top: auto;
+        border-top: 1px solid #e2e8f0;
+        padding-top: 20px;
+        text-align: center;
+        font-size: 11px;
+        color: #64748b;
+      }
+
+      /* Signatures */
+      .sign-area {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 50px;
+        border-top: 1px dashed #ccc;
+        padding-top: 30px;
+      }
+      .sign-box {
+        width: 40%;
+      }
+      .sign-line {
+        border-bottom: 1px solid #000;
+        margin-top: 40px;
+        margin-bottom: 5px;
+      }
+
+      /* Download Button */
+      #download-btn {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: var(--brand-red);
+        color: white;
+        border: none;
+        padding: 12px 25px;
+        font-weight: 600;
+        border-radius: 50px;
+        cursor: pointer;
+        box-shadow: 0 4px 15px rgba(225, 29, 72, 0.4);
+        z-index: 100;
+      }
+      #download-btn:hover {
+        background: #be123c;
+      }
+
+      @media print {
+        body {
+          background: none;
+          margin: 0;
+          padding: 0;
+        }
+        .page {
+          margin: 0;
+          box-shadow: none;
+          width: 100%;
+          height: 100%;
+          page-break-after: always;
+        }
+        .page:last-child {
+          page-break-after: auto;
+        }
+        #download-btn {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <button id="download-btn" onclick="generatePDF()">
+      Download Proposal PDF
+    </button>
+
+    <div id="pdf-content">
+      <!-- PAGE 1: Overview & Objectives -->
+      <div class="page">
+        <div class="header">
+          <img
+            src="https://adexcell-client.vercel.app/mar.png"
+            alt="Marceline Studios"
+            class="logo"
+            crossorigin="anonymous"
+          />
+          <div class="doc-meta">
+            <h1>Web Development Proposal</h1>
+            <span>EQUAÇÕES RAZOÁVEIS EMPRESA DE TRABALHO TEMPORÁRIO LDA</span>
+          </div>
+        </div>
+
+        <div
+          style="
+            background: var(--bg-light);
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid var(--brand-red);
+            margin-bottom: 30px;
+          "
+        >
+          <p style="margin: 0; font-weight: 600; color: var(--brand-dark)">
+            Marceline Studios is pleased to submit this proposal for the design
+            and development of a comprehensive recruitment portal. Our solution
+            focuses on a robust content management system, multi-language
+            support (Portuguese/English), and a seamless user experience for
+            both employers and job seekers.
+          </p>
+        </div>
+
+        <h2>1. Project Objectives</h2>
+        <ul style="font-size: 14px; line-height: 1.8">
+          <li>
+            <strong>Digital Presence:</strong> Establish a professional online
+            identity for EQUAÇÕES RAZOÁVEIS.
+          </li>
+          <li>
+            <strong>Process Automation:</strong> Streamline the connection
+            between employers requesting workers and candidates finding jobs.
+          </li>
+          <li>
+            <strong>Accessibility:</strong> Ensure the platform is accessible in
+            Portuguese (default) with translation options.
+          </li>
+          <li>
+            <strong>Lead Generation:</strong> Integrate scheduling tools for
+            advisory meetings.
+          </li>
+        </ul>
+
+        <h2>2. Core Features</h2>
+        <div class="sitemap-grid">
+          <div class="nav-block">
+            <div class="nav-header">Frontend Functionality</div>
+            <ul class="nav-list">
+              <li><i class="fas fa-search"></i> Advanced Job Search Engine</li>
+              <li>
+                <i class="fas fa-calendar-check"></i> Advisory Meeting Scheduler
+              </li>
+              <li>
+                <i class="fas fa-language"></i> Portuguese Language (Default)
+              </li>
+              <li>
+                <i class="fas fa-globe"></i> Google Translator Integration
+              </li>
+            </ul>
+          </div>
+          <div class="nav-block">
+            <div class="nav-header">Backend Power</div>
+            <ul class="nav-list">
+              <li>
+                <i class="fas fa-database"></i> Dynamic Content Management
+              </li>
+              <li>
+                <i class="fas fa-user-shield"></i> Role-Based Access Control
+              </li>
+              <li><i class="fas fa-bolt"></i> Fast Server-Side Rendering</li>
+              <li><i class="fas fa-lock"></i> Secure Data Handling</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="footer">Page 1 of 4 | Marceline Studios</div>
+      </div>
+
+      <!-- PAGE 2: Detailed Sitemap -->
+      <div class="page">
+        <div
+          style="
+            border-bottom: 1px solid #e2e8f0;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+          "
+        >
+          <span style="font-weight: 700; color: var(--brand-dark)"
+            >Information Architecture</span
+          >
+        </div>
+
+        <h2>3. Detailed Sitemap Structure</h2>
+        <p>
+          The website will feature a mega-menu style navigation organized into
+          four main pillars:
+        </p>
+
+        <div class="sitemap-grid">
+          <!-- Employer Section -->
+          <div class="nav-block">
+            <div class="nav-header">A. Employer Section</div>
+            <ul class="nav-list">
+              <li>
+                Services
+                <ul class="sub-nav">
+                  <li>Temporary Staffing</li>
+                  <li>International Recruitment</li>
+                  <li>Outsourcing</li>
+                </ul>
+              </li>
+              <li>
+                Specializations
+                <ul class="sub-nav">
+                  <li>Agriculture, Forestry & Gardening</li>
+                  <li>Civil & Commercial Construction</li>
+                  <li>Heavy Industry Activities</li>
+                  <li>Hotel, Restaurants & Catering</li>
+                  <li>Production & Manufacturing</li>
+                  <li>Recycling & Industrial Maintenance</li>
+                  <li>Warehouse Operatives & Lumpers</li>
+                </ul>
+              </li>
+              <li>Contract Workers</li>
+              <li>Request Workers (Lead Form)</li>
+            </ul>
+          </div>
+
+          <!-- Job Seeker Section -->
+          <div class="nav-block">
+            <div class="nav-header">B. Job Seeker Section</div>
+            <ul class="nav-list">
+              <li>Job Offers (Listing Page)</li>
+              <li>Job Seekers (Registration)</li>
+              <li>Workforce Contract</li>
+              <li>Information</li>
+            </ul>
+          </div>
+
+          <!-- About Us Section -->
+          <div class="nav-block">
+            <div class="nav-header">C. About Us</div>
+            <ul class="nav-list">
+              <li>About Work Supply</li>
+              <li>Our People</li>
+              <li>Our Commitments</li>
+              <li>Our Clients</li>
+              <li>Quality Policy</li>
+              <li>Certificates & Recognition</li>
+              <li>Code of Conduct</li>
+              <li>Contacts</li>
+            </ul>
+          </div>
+
+          <!-- Perspective & Help -->
+          <div class="nav-block">
+            <div class="nav-header">D. Perspective & Help Center</div>
+            <ul
+              class="nav-list"
+              style="display: grid; grid-template-columns: 1fr 1fr; gap: 5px"
+            >
+              <li>FAQ</li>
+              <li>Blog</li>
+              <li>White Paper</li>
+              <li>Work Legislation</li>
+              <li>Brochures</li>
+              <li>Multimedia</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="footer">Page 2 of 4 | Marceline Studios</div>
+      </div>
+
+      <!-- PAGE 3: Tech Stack & Admin -->
+      <div class="page">
+        <div
+          style="
+            border-bottom: 1px solid #e2e8f0;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+          "
+        >
+          <span style="font-weight: 700; color: var(--brand-dark)"
+            >Technical Specification</span
+          >
+        </div>
+
+        <h2>4. Administration System</h2>
+        <p>
+          The platform will include a secure Admin Panel with a strict hierarchy
+          to ensure data integrity and management control.
+        </p>
+
+        <div class="role-box">
+          <span class="role-title"
+            ><i class="fas fa-crown"></i> Super Admin</span
+          >
+          <p style="margin: 0">
+            The highest level of authority. Has full access to all settings, job
+            postings, and content. <strong>Exclusive Capability:</strong> Can
+            create, manage, and delete other 'Admin' accounts.
+          </p>
+        </div>
+
+        <div class="role-box" style="border-left-color: var(--brand-red)">
+          <span class="role-title"><i class="fas fa-user-cog"></i> Admin</span>
+          <p style="margin: 0">
+            Operational level access. Can manage job listings, review
+            applications, update blog posts, and handle day-to-day site content.
+            <strong>Restriction:</strong> Cannot create or delete other admin
+            users.
+          </p>
+        </div>
+
+        <h2>5. Technology Stack</h2>
+        <p>
+          We will use a cutting-edge MERN-based stack to ensure speed and
+          scalability.
+        </p>
+        <div class="tech-grid">
+          <div class="tech-badge">Next.js (React Framework)</div>
+          <div class="tech-badge">TypeScript</div>
+          <div class="tech-badge">Node.js</div>
+          <div class="tech-badge">Express.js</div>
+          <div class="tech-badge">MongoDB</div>
+          <div class="tech-badge">Tailwind CSS</div>
+        </div>
+
+        <h2>6. Client Requirements</h2>
+        <div class="req-box">
+          <p>To begin development, we require the following assets:</p>
+          <ul class="req-list" style="list-style: none; padding: 0">
+            <li>
+              <i class="fas fa-check-circle"></i> High-Resolution Company Logo.
+            </li>
+            <li>
+              <i class="fas fa-check-circle"></i> Complete static text/content
+              for all pages (About, Services, etc.).
+            </li>
+            <li>
+              <i class="fas fa-check-circle"></i> Images/Assets for banners,
+              blogs, and multimedia sections.
+            </li>
+            <li>
+              <i class="fas fa-check-circle"></i> Domain Access & Hosting
+              CPanel/Credentials.
+            </li>
+            <li>
+              <i class="fas fa-check-circle"></i> Social Media Links (LinkedIn,
+              Facebook, etc.).
+            </li>
+          </ul>
+        </div>
+
+        <div class="footer">Page 3 of 4 | Marceline Studios</div>
+      </div>
+
+      <!-- PAGE 4: Budget & Agreement -->
+      <div class="page">
+        <div
+          style="
+            border-bottom: 1px solid #e2e8f0;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+          "
+        >
+          <span style="font-weight: 700; color: var(--brand-dark)"
+            >Investment & Terms</span
+          >
+        </div>
+
+        <h2>7. Project Budget</h2>
+        <div class="budget-box">
+          <span
+            style="
+              font-size: 14px;
+              font-weight: 600;
+              color: #64748b;
+              text-transform: uppercase;
+            "
+            >Total Investment</span
+          >
+          <span class="total-price">32,000</span>
+          <span style="font-size: 12px; color: var(--brand-red)"
+            >Fixed Cost Package</span
+          >
+        </div>
+
+        <h3 style="margin-top: 30px">Payment Schedule</h3>
+        <table class="pay-table">
+          <thead>
+            <tr>
+              <th>Phase</th>
+              <th>Milestone Description</th>
+              <th style="text-align: right">Amount (%)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>1. Initiation</strong></td>
+              <td>Advance payment upon agreement signing to start work.</td>
+              <td style="text-align: right"><strong>30%</strong></td>
+            </tr>
+            <tr>
+              <td><strong>2. Development</strong></td>
+              <td>
+                Payable after 40% of the project scope is completed and
+                reviewed.
+              </td>
+              <td style="text-align: right"><strong>40%</strong></td>
+            </tr>
+            <tr>
+              <td><strong>3. Handover</strong></td>
+              <td>
+                Final payment upon full project completion and deployment.
+              </td>
+              <td style="text-align: right"><strong>30%</strong></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div
+          style="
+            background: #fff1f2;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 6px;
+            font-size: 12px;
+            border: 1px solid #fecdd3;
+          "
+        >
+          <strong>Note:</strong> Any additional features outside this scope will
+          be charged separately. Content upload is limited to sample data; bulk
+          data entry is the client's responsibility.
+        </div>
+
+        <div class="sign-area">
+          <div class="sign-box">
+            <strong>For: Marceline Studios</strong>
+            <div class="sign-line"></div>
+            <span style="font-size: 11px; color: #666"
+              >Authorized Signature</span
+            >
+          </div>
+          <div class="sign-box">
+            <strong>For: EQUAÇÕES RAZOÁVEIS</strong>
+            <div class="sign-line"></div>
+            <span style="font-size: 11px; color: #666"
+              >Authorized Signature</span
+            >
+          </div>
+        </div>
+
+        <div class="footer">Page 4 of 4 | Marceline Studios</div>
+      </div>
+    </div>
+
+    <script>
+      async function generatePDF() {
+        const btn = document.getElementById('download-btn');
+        btn.innerHTML =
+          '<i class="fas fa-spinner fa-spin"></i> Generating PDF...';
+        btn.disabled = true;
+
+        const { jsPDF } = window.jspdf;
+        const pdf = new jsPDF('p', 'mm', 'a4');
+        const pageElements = document.querySelectorAll('.page');
+
+        for (let i = 0; i < pageElements.length; i++) {
+          const page = pageElements[i];
+
+          // Render page to canvas
+          const canvas = await html2canvas(page, {
+            scale: 2,
+            useCORS: true,
+            logging: false,
+          });
+
+          const imgData = canvas.toDataURL('image/jpeg', 1.0);
+          const imgWidth = 210;
+          const pageHeight = 297;
+          const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+          if (i > 0) pdf.addPage();
+          pdf.addImage(imgData, 'JPEG', 0, 0, imgWidth, imgHeight);
+        }
+
+        pdf.save('Proposal-EquacoesRazoaveis-Marceline.pdf');
+
+        btn.innerHTML = 'Download Proposal PDF';
+        btn.disabled = false;
+      }
+    </script>
+  </body>
+</html>

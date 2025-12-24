@@ -140,7 +140,7 @@ export const PostService = {
 
   getSinglePost: async (id: string) => {
     const result = await Post.findById(id)
-      .populate('user', 'name username email profileImage') // This already fetches all fields, so 'name' is included
+      .populate('user', '') // This already fetches all fields, so 'name' is included
       .populate('likes')
       .populate('comments');
     return result;

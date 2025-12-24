@@ -7,9 +7,9 @@ export const PostService = {
   createPost: async (payload: any) => {
     const { userId, text, images, videos } = payload;
 
-    if (images && images.length > 3)
+    if (images && images.length > 6)
       throw new Error('Maximum 3 images allowed');
-    if (videos && videos.length > 3)
+    if (videos && videos.length > 6)
       throw new Error('Maximum 3 videos allowed');
 
     const post = await Post.create({
@@ -65,11 +65,10 @@ export const PostService = {
 
     await post.save();
 
-    // FIXED: Added 'name' to all populate calls
     const populatedPost = await Post.findById(postId)
-      .populate('user', 'name username email profileImage')
-      .populate('comments.user', 'name username profileImage')
-      .populate('likes', 'name username profileImage');
+      .populate('user', 'username email profileImage')
+      .populate('comments.user', 'username profileImage')
+      .populate('likes', 'username profileImage');
 
     return populatedPost;
   },
@@ -95,10 +94,10 @@ export const PostService = {
       });
     }
 
-    // FIXED: Added 'name' to all populate calls
+    // populate user inside comments
     const populatedPost = await Post.findById(postId)
-      .populate('comments.user', 'name username profileImage')
-      .populate('user', 'name username email profileImage');
+      .populate('comments.user', 'username profileImage')
+      .populate('user', 'username email profileImage'); // optionally populate post owner
 
     return populatedPost;
   },
@@ -126,13 +125,12 @@ export const PostService = {
     return post;
   },
 
-  // 5️⃣ Fetch Posts
+  // 5️⃣ Fetch Posts (optional)
   getAllPosts: async () => {
     const posts = await Post.find()
-      // FIXED: Added 'name' here so the feed gets the real name
-      .populate('user', 'name username email profileImage')
-      .populate('comments.user', 'name username profileImage')
-      .populate('likes', 'name username profileImage')
+      .populate('user', 'username email profileImage') // post owner
+      .populate('comments.user', 'username profileImage') // comment users
+      .populate('likes', 'username profileImage') // liked users
       .sort({ createdAt: -1 });
 
     return posts;
@@ -140,7 +138,7 @@ export const PostService = {
 
   getSinglePost: async (id: string) => {
     const result = await Post.findById(id)
-      .populate('user', 'name username email profileImage') // This already fetches all fields, so 'name' is included
+      .populate('user')
       .populate('likes')
       .populate('comments');
     return result;
@@ -149,10 +147,9 @@ export const PostService = {
   // 6️⃣ Fetch User's Posts
   getUserPosts: async (userId: string) => {
     const posts = await Post.find({ user: userId })
-      // FIXED: Added 'name' here too
-      .populate('user', 'name username email profileImage')
-      .populate('comments.user', 'name username profileImage')
-      .populate('likes', 'name username profileImage')
+      .populate('user', 'username email profileImage')
+      .populate('comments.user', 'username profileImage')
+      .populate('likes', 'username profileImage')
       .sort({ createdAt: -1 });
     return posts;
   },
