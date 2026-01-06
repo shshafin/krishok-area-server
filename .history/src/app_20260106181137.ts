@@ -15,7 +15,7 @@ app.use(
     origin: [
       'http://localhost:5173',
       'http://localhost:5173/auth/login',
-      'http://localhost:5173',
+      '',
       'https://react-ui-sandy.vercel.app',
       'https://rainbow-klepon-d21b1b.netlify.app',
       'https://krishokarea.marcelinestudios.com',
