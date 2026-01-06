@@ -20,7 +20,7 @@ router.post(
   PostController.createPost,
 );
 // Delete Post
-router.delete('/:postId', PostController.deletePost);
+router.delete('/:postId', auth(), PostController.deletePost);
 
 // Toggle Like / Unlike
 router.put('/:postId/like', auth(), PostController.toggleLike);
@@ -29,11 +29,7 @@ router.put('/:postId/like', auth(), PostController.toggleLike);
 router.post('/:postId/comment', auth(), PostController.addComment);
 
 // Delete Comment
-router.delete(
-  '/:postId/comment/:commentId',
-  auth(),
-  PostController.deleteComment,
-);
+router.delete('/:postId/comment/:commentId', PostController.deleteComment);
 
 // Get All Posts
 router.get('/', PostController.getAllPosts);

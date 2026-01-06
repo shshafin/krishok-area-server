@@ -20,7 +20,7 @@ router.post(
   PostController.createPost,
 );
 // Delete Post
-router.delete('/:postId', auth(), PostController.deletePost);
+router.delete('/:postId', , PostController.deletePost);
 
 // Toggle Like / Unlike
 router.put('/:postId/like', auth(), PostController.toggleLike);
@@ -40,6 +40,7 @@ router.get('/', PostController.getAllPosts);
 
 // Get User's Posts
 router.get('/profile/:userId/posts', PostController.getUserProfilePosts);
-
+// Get Single Post
+router.get('/:postId', PostController.getSinglePost);
 
 export const PostRoutes = router;
