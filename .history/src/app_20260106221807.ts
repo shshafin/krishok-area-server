@@ -22,7 +22,7 @@ app.use(
       'https://krishokarea.com',
       'https://krishok-area-client-final.vercel.app',
       'https://krishok-frontend.vercel.app',
-      'https://farmer-frontend-seven.vercel.app',
+      'https://farmer-frontend-seven.vercel.app/auth/login',
     ],
     credentials: true,
   }),
