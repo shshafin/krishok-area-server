@@ -30,6 +30,11 @@ app.use('/uploads', express.static(uploadsPath));
 // routes
 app.use('/api/v1', router);
 
+// home route
+app.get('/', (req, res) => {
+  res.send('Hello World!');
+});
+
 // global error handler
 app.use(globalErrorHandler);
 
