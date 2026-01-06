@@ -60,10 +60,10 @@ export const getSinglePost = async (req: Request, res: Response) => {
 // --------------------
 export const deletePost = async (req: Request, res: Response) => {
   try {
-    const userId = req.user._id;
     const { postId } = req.params;
 
-    await PostService.deletePost(postId, userId);
+    // Sudhu postId pathaw
+    await PostService.deletePost(postId);
 
     res.status(httpStatus.OK).json({
       success: true,
