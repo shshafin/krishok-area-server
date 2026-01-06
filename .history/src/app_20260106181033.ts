@@ -36,9 +36,6 @@ app.get('/', (req, res) => {
   res.send('Hello World!');
 });
 
-app.get('/api/v1', (req, res) => {
-  res.send('API is running...');
-});
 
 // global error handler
 app.use(globalErrorHandler);
