@@ -39,8 +39,9 @@ const createUser: RequestHandler = async (req, res, next) => {
 
 const getMe: RequestHandler = async (req: any, res, next) => {
   try {
-    const userId = req.user._id;
+    const userId = req.user._id; 
 
+    // সার্ভিস থেকে পপুলেটেড ডেটা আনো
     const result = await UserServices.getMeFromDB(userId);
 
     res.status(200).json({

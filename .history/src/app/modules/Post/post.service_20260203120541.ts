@@ -134,7 +134,7 @@ export const PostService = {
 
   getSinglePost: async (id: string) => {
     const result = await Post.findById(id)
-      .populate('user', 'name username email state profileImage') // This already fetches all fields, so 'name' is included
+      .populate('user', 'name username email profileImage') // This already fetches all fields, so 'name' is included
       .populate('likes')
       .populate('comments');
     return result;
@@ -144,9 +144,9 @@ export const PostService = {
   getUserPosts: async (userId: string) => {
     const posts = await Post.find({ user: userId })
       // FIXED: Added 'name' here too
-      .populate('user', 'name username email state profileImage')
-      .populate('comments.user', 'name username state profileImage')
-      .populate('likes', 'name username state profileImage')
+      .populate('user', 'name username email profileImage')
+      .populate('comments.user', 'name username profileImage')
+      .populate('likes', 'name username profileImage')
       .sort({ createdAt: -1 });
     return posts;
   },

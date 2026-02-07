@@ -135,8 +135,8 @@ const getUserPhotos = async (userId: string) => {
 
 const getMeFromDB = async (userId: string) => {
   const result = await User.findById(userId)
-    .populate('followers', 'name _id username state profileImage') // ফ্রন্টেন্ডের জন্য যা দরকার
-    .populate('following', 'name _id username state profileImage')
+    .populate('followers', 'name username profileImage') // ফ্রন্টেন্ডের জন্য যা দরকার
+    .populate('following', 'name username profileImage')
     .select('-password');
   return result;
 };

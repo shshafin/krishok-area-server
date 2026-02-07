@@ -144,9 +144,9 @@ export const PostService = {
   getUserPosts: async (userId: string) => {
     const posts = await Post.find({ user: userId })
       // FIXED: Added 'name' here too
-      .populate('user', 'name username email state profileImage')
-      .populate('comments.user', 'name username state profileImage')
-      .populate('likes', 'name username state profileImage')
+      .populate('user', 'name username email profileImage')
+      .populate('comments.user', 'name username profileImage')
+      .populate('likes', 'name username profileImage')
       .sort({ createdAt: -1 });
     return posts;
   },
