@@ -13,10 +13,10 @@ app.use(express.json());
 app.use(
   cors({
     origin: [
-      'http://178.16.138.218',
-      'http://178.16.138.218:5001',
+      'http://178.16.138.218', // আপনার VPS IP
+      'http://178.16.138.218:5001', 
       'https://krishokarea.com',
-      'https://www.krishokarea.com',
+      'https://www.krishokarea.com', 
     ],
     credentials: true,
   }),
