@@ -14,13 +14,16 @@ app.use(
   cors({
     origin: [
       'http://localhost:5173',
-      
+      'http://localhost:5174/auth/login',
+      'http://localhost:5174',
       'https://react-ui-sandy.vercel.app',
       'https://rainbow-klepon-d21b1b.netlify.app',
       'https://krishokarea.marcelinestudios.com',
       'https://krishokarea.com',
       'https://krishok-area-client-final.vercel.app',
       'https://krishok-frontend.vercel.app',
+      'https://farmer-frontend-seven.vercel.app',
+      'https://krishok-client.vercel.app',
     ],
     credentials: true,
   }),
