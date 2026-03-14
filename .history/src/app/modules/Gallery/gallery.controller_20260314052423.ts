@@ -7,8 +7,8 @@ const createGallery: RequestHandler = async (req: any, res, next) => {
     const { description, title } = req.body;
     const payload: any = { user: userId, description, title };
 
-    if (req.files && (req.files as any).image) {
-      payload.image = `/uploads/${(req.files as any).image[0].filename}`;
+    if (req.files && req.files.image) {
+      payload.image = `/uploads/${req.files.image[0].filename}`;
     } else {
       return res.status(400).json({
         success: false,
@@ -66,7 +66,11 @@ const getGalleryById: RequestHandler = async (req, res, next) => {
       });
     }
 
-    res.status(200).json(gallery);
+    res.status(200).json({
+      success: true,
+      message: 'Gallery fetched successfully',
+      data: gallery,
+    });
   } catch (err) {
     next(err);
   }
@@ -81,8 +85,9 @@ const updateGallery: RequestHandler = async (req: any, res, next) => {
     if (req.body.title) payload.title = req.body.title;
     if (req.body.description) payload.description = req.body.description;
 
-    if (req.files && (req.files as any).image) {
-      payload.image = `/uploads/${(req.files as any).image[0].filename}`;
+    // ✅ image upload হলে path save করো
+    if (req.files && req.files.image) {
+      payload.image = `/uploads/${req.files.image[0].filename}`;
     }
 
     const result = await GalleryServices.updateGallery(id, payload);

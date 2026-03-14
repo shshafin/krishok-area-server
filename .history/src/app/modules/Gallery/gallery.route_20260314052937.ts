@@ -19,16 +19,7 @@ router.get('/my', auth(), GalleryControllers.getMyGallery);
 // Get all galleries
 router.get('/all', GalleryControllers.getAllGalleries);
 
-// ✅ নতুন: Update gallery
-// ⚠️ PUT /:id অবশ্যই GET /:id এর আগে — নাহলে Express conflict করে
-router.put(
-  '/:id',
-  auth(),
-  upload.fields([{ name: 'image', maxCount: 1 }]),
-  GalleryControllers.updateGallery,
-);
-
-// Get single gallery by ID (public)
+// 🔥 New: Get single gallery by ID (public)
 router.get('/:id', GalleryControllers.getGalleryById);
 
 // Delete gallery

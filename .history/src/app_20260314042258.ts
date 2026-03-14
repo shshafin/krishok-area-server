@@ -4,6 +4,7 @@ import globalErrorHandler from './app/middlewares/globalErrorHandler';
 import notFound from './app/middlewares/notFound';
 import router from './app/routes';
 import path from 'path';
+import './app/cron/nodeCron';
 
 const app: Application = express();
 

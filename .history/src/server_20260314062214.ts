@@ -5,10 +5,13 @@ import app from './app';
 import config from './app/config';
 import mongoose from 'mongoose';
 import { Server } from 'http';
-import { startCronJobs } from './app/cron/nodeCron';
+import './app/cron/nodeCron';
+import { setupSocket } from './app/sockets/socket';
 
 let server: Server;
 const port = config.port;
+
+
 
 async function main() {
   try {
@@ -19,7 +22,11 @@ async function main() {
       console.log(`Server running on port ${port}`);
     });
 
+    setupSocket(server);
+
+    // ✅ DB connect হওয়ার পরে cron start করো
     startCronJobs();
+
   } catch (err) {
     console.log(err);
   }

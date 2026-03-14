@@ -5,7 +5,6 @@ const gallerySchema = new Schema<TGallery>(
   {
     user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
     description: { type: String },
-    title: { type: String },
     image: { type: String, required: true },
   },
   { timestamps: true },

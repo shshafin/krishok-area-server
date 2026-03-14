@@ -4,11 +4,13 @@ import { GalleryServices } from './gallery.service';
 const createGallery: RequestHandler = async (req: any, res, next) => {
   try {
     const userId = req.user._id;
-    const { description, title } = req.body;
-    const payload: any = { user: userId, description, title };
+    const { description } = req.body;
+    
+    const payload: any = { user: userId, description };
 
-    if (req.files && (req.files as any).image) {
-      payload.image = `/uploads/${(req.files as any).image[0].filename}`;
+    // ✅ Handle image upload
+    if (req.files && req.files.image) {
+      payload.image = `/uploads/${req.files.image[0].filename}`;
     } else {
       return res.status(400).json({
         success: false,
@@ -17,6 +19,7 @@ const createGallery: RequestHandler = async (req: any, res, next) => {
     }
 
     const result = await GalleryServices.createGallery(payload);
+
     res.status(201).json({
       success: true,
       message: 'Gallery item created successfully',
@@ -31,6 +34,7 @@ const getMyGallery: RequestHandler = async (req: any, res, next) => {
   try {
     const userId = req.user._id;
     const result = await GalleryServices.getUserGallery(userId);
+
     res.status(200).json({
       success: true,
       message: 'Gallery fetched successfully',
@@ -72,38 +76,6 @@ const getGalleryById: RequestHandler = async (req, res, next) => {
   }
 };
 
-// ✅ নতুন: update gallery
-const updateGallery: RequestHandler = async (req: any, res, next) => {
-  try {
-    const { id } = req.params;
-    const payload: any = {};
-
-    if (req.body.title) payload.title = req.body.title;
-    if (req.body.description) payload.description = req.body.description;
-
-    if (req.files && (req.files as any).image) {
-      payload.image = `/uploads/${(req.files as any).image[0].filename}`;
-    }
-
-    const result = await GalleryServices.updateGallery(id, payload);
-
-    if (!result) {
-      return res.status(404).json({
-        success: false,
-        message: 'Gallery not found',
-      });
-    }
-
-    res.status(200).json({
-      success: true,
-      message: 'Gallery updated successfully',
-      data: result,
-    });
-  } catch (err) {
-    next(err);
-  }
-};
-
 const deleteGallery: RequestHandler = async (req: any, res, next) => {
   try {
     const userId = req.user._id;
@@ -130,7 +102,6 @@ export const GalleryControllers = {
   createGallery,
   getMyGallery,
   getAllGalleries,
-  getGalleryById,
-  updateGallery,
   deleteGallery,
+  getGalleryById,
 };

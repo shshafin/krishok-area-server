@@ -26,7 +26,6 @@ const deleteGallery = async (galleryId: string, userId: string) => {
   return await Gallery.findOneAndDelete({ _id: galleryId, user: userId });
 };
 
-// ✅ নতুন: update gallery
 const updateGallery = async (galleryId: string, payload: Partial<TGallery>) => {
   return await Gallery.findByIdAndUpdate(galleryId, payload, { new: true });
 };
