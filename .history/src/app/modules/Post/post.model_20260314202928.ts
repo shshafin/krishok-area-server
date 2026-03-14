@@ -19,7 +19,7 @@ const postSchema = new Schema<any>(
         validator: function (val: string[]) {
           return val.length <= 4;
         },
-        message: 'Maximum 4 images allowed',
+        message: 'Maximum 3 images allowed',
       },
     },
 

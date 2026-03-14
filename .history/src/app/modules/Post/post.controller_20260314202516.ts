@@ -2,30 +2,21 @@ import { Request, Response } from 'express';
 import { PostService } from './post.service';
 import httpStatus from 'http-status';
 
-// --------------------
 // CREATE POST
-// --------------------
 export const createPost = async (req: Request, res: Response) => {
   try {
-    const userId = req.user._id;
-
+    const userId = (req as any).user._id;
     const { text } = req.body;
 
-    // multer files
+    // ✅ Fix: শুধু images, videos বাদ
     const images =
       req.files && (req.files as any).images
         ? (req.files as any).images.map(
             (file: any) => `/uploads/${file.filename}`,
           )
         : [];
-    const videos =
-      req.files && (req.files as any).videos
-        ? (req.files as any).videos.map(
-            (file: any) => `/uploads/${file.filename}`,
-          )
-        : [];
 
-    const post = await PostService.createPost({ userId, text, images, videos });
+    const post = await PostService.createPost({ userId, text, images });
 
     res.status(httpStatus.CREATED).json({
       success: true,
@@ -40,31 +31,29 @@ export const createPost = async (req: Request, res: Response) => {
   }
 };
 
+// GET SINGLE POST
 export const getSinglePost = async (req: Request, res: Response) => {
   try {
     const { postId } = req.params;
     const result = await PostService.getSinglePost(postId);
-
     res.status(httpStatus.OK).json({
       success: true,
       message: 'Post retrieved successfully',
       data: result,
     });
   } catch (error: any) {
-    // handle error
+    res.status(httpStatus.BAD_REQUEST).json({
+      success: false,
+      message: error.message,
+    });
   }
 };
 
-// --------------------
 // DELETE POST
-// --------------------
 export const deletePost = async (req: Request, res: Response) => {
   try {
-    const userId = req.user._id;
     const { postId } = req.params;
-
-    await PostService.deletePost(postId, userId);
-
+    await PostService.deletePost(postId);
     res.status(httpStatus.OK).json({
       success: true,
       message: 'Post deleted successfully',
@@ -76,18 +65,13 @@ export const deletePost = async (req: Request, res: Response) => {
     });
   }
 };
-// --------------------
 
-// --------------------
 // TOGGLE LIKE
-// --------------------
 export const toggleLike = async (req: Request, res: Response) => {
   try {
-    const userId = req.user._id;
+    const userId = (req as any).user._id;
     const { postId } = req.params;
-
     const post = await PostService.toggleLike(postId, userId);
-
     res.status(httpStatus.OK).json({
       success: true,
       message: 'Like status updated',
@@ -101,17 +85,13 @@ export const toggleLike = async (req: Request, res: Response) => {
   }
 };
 
-// --------------------
 // ADD COMMENT
-// --------------------
 export const addComment = async (req: Request, res: Response) => {
   try {
-    const userId = req.user._id;
+    const userId = (req as any).user._id;
     const { postId } = req.params;
     const { text } = req.body;
-
     const post = await PostService.addComment({ postId, userId, text });
-
     res.status(httpStatus.OK).json({
       success: true,
       message: 'Comment added',
@@ -125,16 +105,12 @@ export const addComment = async (req: Request, res: Response) => {
   }
 };
 
-// --------------------
 // DELETE COMMENT
-// --------------------
 export const deleteComment = async (req: Request, res: Response) => {
   try {
-    const userId = req.user._id;
+    const userId = (req as any).user._id;
     const { postId, commentId } = req.params;
-
     const post = await PostService.deleteComment(postId, commentId, userId);
-
     res.status(httpStatus.OK).json({
       success: true,
       message: 'Comment deleted',
@@ -148,13 +124,10 @@ export const deleteComment = async (req: Request, res: Response) => {
   }
 };
 
-// --------------------
 // GET ALL POSTS
-// --------------------
 export const getAllPosts = async (_req: Request, res: Response) => {
   try {
     const posts = await PostService.getAllPosts();
-
     res.status(httpStatus.OK).json({
       success: true,
       posts,
@@ -167,15 +140,11 @@ export const getAllPosts = async (_req: Request, res: Response) => {
   }
 };
 
-// --------------------
-// GET SINGLE POST
-// --------------------
+// GET USER POSTS
 export const getUserProfilePosts = async (req: Request, res: Response) => {
   try {
     const { userId } = req.params;
-
     const posts = await PostService.getUserPosts(userId);
-
     res.status(200).json({
       success: true,
       posts,

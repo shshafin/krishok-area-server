@@ -5,22 +5,17 @@ import { upload } from '../../middlewares/upload';
 
 const router = Router();
 
-// --------------------
-// POST ROUTES
-// --------------------
-
 // Create Post
+// ✅ Fix: video বাদ, শুধু images — maxCount 4 করলাম
 router.post(
   '/create',
-  upload.fields([
-    { name: 'images', maxCount: 3 },
-    { name: 'videos', maxCount: 3 },
-  ]),
   auth(),
+  upload.fields([{ name: 'images', maxCount: 4 }]),
   PostController.createPost,
 );
+
 // Delete Post
-router.delete('/:postId', , PostController.deletePost);
+router.delete('/:postId', PostController.deletePost);
 
 // Toggle Like / Unlike
 router.put('/:postId/like', auth(), PostController.toggleLike);
@@ -40,6 +35,7 @@ router.get('/', PostController.getAllPosts);
 
 // Get User's Posts
 router.get('/profile/:userId/posts', PostController.getUserProfilePosts);
+
 // Get Single Post
 router.get('/:postId', PostController.getSinglePost);
 
